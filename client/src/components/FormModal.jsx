@@ -4,13 +4,13 @@ import ImageUploader from "./ImageUploader";
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
-  max-height: 900px;
+  width: 48.5rem;
+  max-height: 67rem;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
   padding: 3rem;
-  border: 1px solid #fff;
+  border: 0.1rem solid #fff;
   border-radius: 0.8rem;
 `;
 
@@ -21,7 +21,9 @@ const InputRow = styled.div`
   width: 100%;
 `;
 
-const Label = styled.label``;
+const Label = styled.label`
+  font-size: 1.8rem;
+`;
 
 const Input = styled.input`
   padding: 1rem;
@@ -41,7 +43,8 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 4rem;
+  height: 5rem;
+  font-size: 1.5rem;
 `;
 
 const FormModal = () => {
