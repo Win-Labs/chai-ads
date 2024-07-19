@@ -3,13 +3,15 @@ import styled from "styled-components";
 import ImageUploader from "./ImageUploader";
 
 const Wrapper = styled.div`
-  width: 100%;
   display: flex;
+  width: 100%;
+  max-height: 900px;
   flex-direction: column;
-  gap: 2rem;
   align-items: center;
-  justify-content: center;
-  flex: 1;
+  gap: 2rem;
+  padding: 3rem;
+  border: 1px solid #fff;
+  border-radius: 0.8rem;
 `;
 
 const InputRow = styled.div`
@@ -39,6 +41,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 4rem;
 `;
 
 const FormModal = () => {

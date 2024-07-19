@@ -11,8 +11,8 @@ const Image = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10rem;
-  height: 10rem;
+  width: ${(props) => props.width}rem;
+  height: ${(props) => props.width}rem;
   background-image: url(${(props) => props.imgsrc});
   background-size: cover;
   background-position: center;
@@ -53,7 +53,11 @@ const ImageUploader = ({ image = null, setImage, disabled }) => {
         onChange={handleImageChange}
         accept="image/*"
       />
-      <Image htmlFor="image-upload" imgsrc={image?.src}>
+      <Image
+        htmlFor="image-upload"
+        imgsrc={image?.src}
+        width={image?.src ? 10 : 3}
+      >
         {!image?.src && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +66,7 @@ const ImageUploader = ({ image = null, setImage, disabled }) => {
             strokeWidth={1.5}
             stroke="currentColor"
             className="size-6"
-            width="2rem"
+            width="3rem"
           >
             <path
               strokeLinecap="round"
