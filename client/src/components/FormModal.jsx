@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
   flex: 1;
@@ -14,8 +14,9 @@ const Wrapper = styled.div`
 
 const InputRow = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   flex-direction: column;
+  width: 100%;
 `;
 
 const Label = styled.label``;
@@ -26,15 +27,25 @@ const Input = styled.input`
   font-family: Lexend;
 `;
 
+const TextArea = styled.textarea`
+  padding: 1rem;
+  min-width: 100%;
+  font-family: Lexend;
+  resize: none;
+`;
+
 const Button = styled.button`
   display: flex;
-  max-width
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 const FormModal = () => {
   const [to, setTo] = useState("");
   const [duration, setDuration] = useState("");
   const [image, setImage] = useState(null);
+  const [text, setText] = useState("");
   const [price, setPrice] = useState("");
 
   const toHandler = (e) => {
@@ -45,13 +56,14 @@ const FormModal = () => {
     e.preventDefault();
     setDuration(e.target.value);
   };
-  const imageHandler = (e) => {
-    e.preventDefault();
-    setImage(e.target.value);
-  };
   const priceHandler = (e) => {
     e.preventDefault();
     setPrice(e.target.value);
+  };
+
+  const textHandler = (e) => {
+    e.preventDefault();
+    setText(e.target.value);
   };
 
   return (
@@ -65,7 +77,7 @@ const FormModal = () => {
         <Input
           id="to"
           name="to"
-          placeholder="recepient wallet address"
+          placeholder="wallet address"
           value={to}
           onChange={toHandler}
         />
@@ -88,6 +100,16 @@ const FormModal = () => {
           placeholder="offered price"
           value={price}
           onChange={priceHandler}
+        />
+      </InputRow>
+      <InputRow>
+        <Label>Text</Label>
+        <TextArea
+          id="text"
+          name="text"
+          placeholder="post's text"
+          value={text}
+          onChange={textHandler}
         />
       </InputRow>
       <Button>MAKE OFFER</Button>
