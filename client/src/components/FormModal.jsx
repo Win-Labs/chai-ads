@@ -1,34 +1,45 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import ImageUploader from "./ImageUploader";
 
 const Wrapper = styled.div`
-  max-width: 40rem;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
   justify-content: center;
+  flex: 1;
 `;
+
+const InputRow = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+`;
+
+const Label = styled.label``;
 
 const Input = styled.input`
   padding: 1rem;
   width: 100%;
+  font-family: Lexend;
 `;
 
 const Button = styled.button`
   display: flex;
+  max-width
 `;
 
 const FormModal = () => {
-  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [duration, setDuration] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [price, setPrice] = useState("");
 
-  const fromHandler = (e) => {
+  const toHandler = (e) => {
     e.preventDefault();
-    setFrom(e.target.value);
+    setTo(e.target.value);
   };
   const durationHandler = (e) => {
     e.preventDefault();
@@ -45,22 +56,40 @@ const FormModal = () => {
 
   return (
     <Wrapper>
-      <Input id="from" name="from" value={from} onChange={fromHandler} />
-      <Input
-        id="duration"
-        name="duration"
-        value={duration}
-        placeholder="How long should the post be visible"
-        onChange={durationHandler}
-      />
-      <Input
-        id="name"
-        name="image"
-        value={image}
-        placeholder=""
-        onChange={imageHandler}
-      />
-      <Input id="price" name="price" value={price} onChange={priceHandler} />
+      <InputRow>
+        <Label>Image</Label>
+        <ImageUploader image={image} setImage={setImage} disabled={false} />
+      </InputRow>
+      <InputRow>
+        <Label>Recipient</Label>
+        <Input
+          id="to"
+          name="to"
+          placeholder="recepient wallet address"
+          value={to}
+          onChange={toHandler}
+        />
+      </InputRow>
+      <InputRow>
+        <Label>Duration</Label>
+        <Input
+          id="duration"
+          name="duration"
+          placeholder="post duration"
+          value={duration}
+          onChange={durationHandler}
+        />
+      </InputRow>
+      <InputRow>
+        <Label>Price</Label>
+        <Input
+          id="price"
+          name="price"
+          placeholder="offered price"
+          value={price}
+          onChange={priceHandler}
+        />
+      </InputRow>
       <Button>MAKE OFFER</Button>
     </Wrapper>
   );
