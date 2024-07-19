@@ -5,9 +5,9 @@ import ImageUploader from "./ImageUploader";
 const Wrapper = styled.div`
   display: flex;
   width: 48.5rem;
-  max-height: 67rem;
   flex-direction: column;
   align-items: center;
+  align-self: start;
   gap: 2rem;
   padding: 3rem;
   border: 0.1rem solid #fff;
@@ -83,7 +83,7 @@ const FormModal = () => {
         <Input
           id="to"
           name="to"
-          placeholder="wallet address"
+          placeholder="enter wallet address"
           value={to}
           onChange={toHandler}
         />
@@ -93,7 +93,7 @@ const FormModal = () => {
         <Input
           id="duration"
           name="duration"
-          placeholder="post duration"
+          placeholder="enter post duration"
           value={duration}
           onChange={durationHandler}
         />
@@ -103,7 +103,7 @@ const FormModal = () => {
         <Input
           id="price"
           name="price"
-          placeholder="offered price"
+          placeholder="enter offered price"
           value={price}
           onChange={priceHandler}
         />
@@ -113,7 +113,7 @@ const FormModal = () => {
         <TextArea
           id="text"
           name="text"
-          placeholder="post's text"
+          placeholder="enter post's content"
           value={text}
           onChange={textHandler}
         />
