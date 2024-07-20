@@ -94,55 +94,7 @@ const FormModal = () => {
   const handleTextBlur = (event) => {};
 
   return (
-    // <Wrapper>
-    // <InputRow>
-    //   <Label>Image</Label>
-    //   <ImageUploader image={image} setImage={setImage} disabled={false} />
-    // </InputRow>
-    //   <InputRow>
-    //     <Label>Recipient</Label>
-    //     <Input
-    //       id="to"
-    //       name="to"
-    //       placeholder="enter wallet address"
-    //       value={to}
-    //       onChange={toHandler}
-    //     />
-    //   </InputRow>
-    //   <InputRow>
-    //     <Label>Duration</Label>
-    //     <Input
-    //       id="duration"
-    //       name="duration"
-    //       placeholder="enter post duration"
-    //       value={duration}
-    //       onChange={durationHandler}
-    //     />
-    //   </InputRow>
-    //   <InputRow>
-    //     <Label>Price</Label>
-    //     <Input
-    //       id="price"
-    //       name="price"
-    //       placeholder="enter offered price"
-    //       value={price}
-    //       onChange={priceHandler}
-    //     />
-    //   </InputRow>
-    //   <InputRow>
-    //     <Label>Text</Label>
-    //     <TextArea
-    //       id="text"
-    //       name="text"
-    //       placeholder="enter post's content"
-    //       value={text}
-    //       onChange={textHandler}
-    //     />
-    //   </InputRow>
-    //   <Button>MAKE OFFER</Button>
-    // </Wrapper>
     <>
-      {/* <StyledAccount>{account ? account : "Not Connected"}</StyledAccount> */}
       <Container className={classes.level_0}>
         <Container className={classes.level_1}>
           <Wrapper>
@@ -193,7 +145,6 @@ const FormModal = () => {
                   id="text"
                   name="text"
                   as="textarea"
-                  active
                   placeholder="Enter post's content"
                   value={text}
                   error={false}

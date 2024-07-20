@@ -24,7 +24,7 @@ export const Icon = styled.div`
 export const ModalTitle = styled.h2`
   color: #3a4374;
   font-size: 2rem;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   @media (max-width: 600px) {
     ${(props) => props.theme.typography.size18};
   }

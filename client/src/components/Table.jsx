@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import cuid from "cuid";
-import { useTxs } from "../contexts/TxsContext";
-import { Link } from "react-router-dom";
-import Copy from "./Copy";
 
-const StyledLink = styled(Link)`
+import Copy from "../components/UI/Copy";
+import Arrow from "./pfa/components/UI/Arrow";
+
+const StyledLink = styled.a`
   color: inherit;
   text-decoration: none;
   border: none;
@@ -14,7 +14,6 @@ const StyledLink = styled(Link)`
 `;
 
 const HeaderText = styled.span`
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -60,7 +59,6 @@ const CellWrapper = styled.div`
   cursor: pointer;
 `;
 const CellText = styled.span`
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   line-height: 20px;
@@ -70,59 +68,105 @@ const CellText = styled.span`
 const StatusText = styled(CellText)`
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  justify-content: center;
+  padding: 5px 10px;
   text-transform: capitalize;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 12px;
   line-height: 18px;
+  width: 100%;
+  max-width: 90px;
   letter-spacing: 0.36px;
   background: ${({ status }) =>
-    (status === "fail" && "var(--Red-0, #FAF0F3)") ||
+    (status === "rejected" && "#d7e3e7") ||
     (status === "pending" && "rgba(214, 162, 67, 0.12)") ||
-    (status === "success" && "var(--Green-0, #E1FCEF)")};
+    (status === "completed" && "var(--Green-0, #E1FCEF)") ||
+    (status === "ongoing" && "#2ea3fa")};
   color: ${({ status }) =>
-    (status === "fail" && "var(--Red-500, #D12953)") ||
+    (status === "rejected" && "#94b6c1") ||
     (status === "pending" && "#D6A243") ||
-    (status === "success" && "var(--Green-500, #14804A)")};
+    (status === "completed" && "var(--Green-500, #14804A)") ||
+    (status === "ongoing" && "#fff")};
 `;
 
-const shorten = (ethAddr) => ethAddr.slice(0, 5) + "..." + ethAddr.slice(-3);
+const shorten = (ethAddr) =>
+  ethAddr.length > 14 && ethAddr.slice(0, 5) + "..." + ethAddr.slice(-3);
+
+const formatPrice = (value) => `0.${String(value).padStart(5, "0")} ETH`;
 
 const handleCopy = (text) => {
   navigator.clipboard.writeText(text);
 };
 
-const Table = ({ headers, entries }) => {
+const Table = ({ entries }) => {
   return (
     <Body>
       <HeaderRow>
-        {headers.map((header) => {
-          return <HeaderText key={cuid()}>{header}</HeaderText>;
-        })}
+        <HeaderText>Address</HeaderText>
+        <HeaderText>Direction</HeaderText>
+        <HeaderText>Duration</HeaderText>
+        <HeaderText>Price</HeaderText>
+        <HeaderText>Status</HeaderText>
       </HeaderRow>
-      {entries.map((tx) => {
+      {entries.map((entry) => {
         return (
           <Row key={cuid()}>
-            {headers.map((header) => {
-              return (
-                <CellWrapper key={cuid()}>
-                  {["fail", "success", "pending"].includes(tx[header]) ? (
-                    <StatusText status={tx.status}>{tx.status}</StatusText>
-                  ) : (
-                    <>
-                      <CellText>
-                        <StyledLink to={`/${header}/${tx[header]}`}>
-                          {tx[header].length > 14
-                            ? shorten(tx[header])
-                            : tx[header]}
-                        </StyledLink>
-                      </CellText>
-                      <Copy handler={() => handleCopy(tx[header])} />
-                    </>
-                  )}
-                </CellWrapper>
-              );
-            })}
+            <CellWrapper>
+              <CellText>
+                <StyledLink>{shorten(entry.addr)}</StyledLink>
+              </CellText>
+              <Copy handler={() => handleCopy(entry.addr)} />
+            </CellWrapper>
+            <CellWrapper>
+              <CellText>
+                {entry.price > 0 ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                    />
+                  </svg>
+                )}
+              </CellText>
+            </CellWrapper>
+            <CellWrapper>
+              <CellText>
+                <StyledLink>{entry.duration}</StyledLink>
+              </CellText>
+              <Copy handler={() => handleCopy(entry.duration)} />
+            </CellWrapper>
+            <CellWrapper>
+              <CellText>
+                <StyledLink>{formatPrice(entry.price)}</StyledLink>
+              </CellText>
+              <Copy handler={() => handleCopy(entry.price)} />
+            </CellWrapper>
+            <CellWrapper>
+              <StatusText status={entry.status}>{entry.status}</StatusText>
+            </CellWrapper>
           </Row>
         );
       })}
