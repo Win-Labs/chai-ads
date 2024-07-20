@@ -42,7 +42,7 @@ const addrs = [
 ];
 
 let orders = new Array(addrs.length).fill(0).map((_, i) => String(i));
-const statuses = ["pending", "ongoing", "completed", "rejected"];
+const statuses = ["pending", "ongoing", "completed", "canceled"];
 
 const pickMember = (arr) => arr[Math.floor(Math.random() * arr.length)];
 

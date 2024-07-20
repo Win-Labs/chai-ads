@@ -5,6 +5,7 @@ import cuid from "cuid";
 
 import Copy from "../components/UI/Copy";
 import Arrow from "./pfa/components/UI/Arrow";
+import Button from "./pfa/components/UI/Button";
 
 const StyledLink = styled.a`
   color: inherit;
@@ -78,12 +79,12 @@ const StatusText = styled(CellText)`
   max-width: 90px;
   letter-spacing: 0.36px;
   background: ${({ status }) =>
-    (status === "rejected" && "#d7e3e7") ||
+    (status === "canceled" && "#d7e3e7") ||
     (status === "pending" && "rgba(214, 162, 67, 0.12)") ||
     (status === "completed" && "var(--Green-0, #E1FCEF)") ||
     (status === "ongoing" && "#2ea3fa")};
   color: ${({ status }) =>
-    (status === "rejected" && "#94b6c1") ||
+    (status === "canceled" && "#94b6c1") ||
     (status === "pending" && "#D6A243") ||
     (status === "completed" && "var(--Green-500, #14804A)") ||
     (status === "ongoing" && "#fff")};
@@ -103,7 +104,7 @@ const Table = ({ entries }) => {
     <Body>
       <HeaderRow>
         <HeaderText>Address</HeaderText>
-        <HeaderText>Direction</HeaderText>
+        <HeaderText></HeaderText>
         <HeaderText>Duration</HeaderText>
         <HeaderText>Price</HeaderText>
         <HeaderText>Status</HeaderText>
@@ -118,39 +119,39 @@ const Table = ({ entries }) => {
               <Copy handler={() => handleCopy(entry.addr)} />
             </CellWrapper>
             <CellWrapper>
-              <CellText>
-                {entry.price > 0 ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-                    />
-                  </svg>
-                )}
-              </CellText>
+              {entry.price < 0 ? (
+                <svg
+                  width="18px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  width="18px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                  />
+                </svg>
+              )}
             </CellWrapper>
             <CellWrapper>
               <CellText>
