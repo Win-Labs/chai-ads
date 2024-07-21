@@ -61,14 +61,20 @@ import StyledInput from "./pfa/components/UI/styles/StyledInput";
 //   font-size: 1.5rem;
 // `;
 
+const Positioning = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+`;
+
 const FormModal = () => {
   const [to, setTo] = useState("");
   const [duration, setDuration] = useState("");
   const [image, setImage] = useState(null);
   const [text, setText] = useState("");
   const [price, setPrice] = useState("");
-
-  const MODAL_TITLE = "Create your bundle transaction";
 
   const toHandler = (e) => {
     e.preventDefault();
@@ -94,7 +100,7 @@ const FormModal = () => {
   const handleTextBlur = (event) => {};
 
   return (
-    <>
+    <Positioning>
       <Container className={classes.level_0}>
         <Container className={classes.level_1}>
           <Wrapper>
@@ -169,7 +175,7 @@ const FormModal = () => {
           </Wrapper>
         </Container>
       </Container>
-    </>
+    </Positioning>
   );
 };
 

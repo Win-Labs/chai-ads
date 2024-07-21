@@ -91,7 +91,7 @@ const StatusText = styled(CellText)`
 `;
 
 const shorten = (ethAddr) =>
-  ethAddr.length > 14 && ethAddr.slice(0, 5) + "..." + ethAddr.slice(-3);
+  ethAddr.length > 14 && ethAddr.slice(0, 8) + "..." + ethAddr.slice(-6);
 
 const formatPrice = (value) => `0.${String(value).padStart(5, "0")} ETH`;
 
@@ -157,13 +157,11 @@ const Table = ({ entries }) => {
               <CellText>
                 <StyledLink>{entry.duration}</StyledLink>
               </CellText>
-              <Copy handler={() => handleCopy(entry.duration)} />
             </CellWrapper>
             <CellWrapper>
               <CellText>
                 <StyledLink>{formatPrice(entry.price)}</StyledLink>
               </CellText>
-              <Copy handler={() => handleCopy(entry.price)} />
             </CellWrapper>
             <CellWrapper>
               <StatusText status={entry.status}>{entry.status}</StatusText>

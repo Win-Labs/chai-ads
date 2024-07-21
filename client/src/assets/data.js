@@ -48,11 +48,15 @@ const pickMember = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const pickNum = (num) => Math.floor(Math.random() * num);
 
+function pickNumInRange(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 export const requests = addrs.map((_, index, arr) => {
   const addr = addrs[index];
   const duration = `${pickNum(24)} hours`;
   const status = pickMember(statuses);
-  const price = pickNum(9999);
+  const price = pickNumInRange(-9999, 9999);
 
   return { addr, duration, status, price };
 });

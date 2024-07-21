@@ -6,6 +6,7 @@ import search from "../assets/images/search.svg";
 import Outlet from "./Outlet";
 import Button from "./pfa/components/UI/Button";
 import classes from "./pfa/screens/styles/CreateEditFeedback.module.css";
+import FormModal from "./FormModal";
 
 const TableWrapper = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const TableWrapper = styled.div`
   align-items: center;
   background: #d6ebf2;
   backdrop-filter: blur(4px);
+  position: relative;
 `;
 
 const Head = styled.div`
@@ -138,6 +140,13 @@ const RightArr = styled.div`
 
 const Root = () => {
   const [value, setValue] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal((prevState) => !prevState);
+  };
+
   const handleChange = (e) => {
     setValue(e.target.value.trim());
   };
@@ -162,6 +171,7 @@ const Root = () => {
 
   return (
     <TableWrapper>
+      {showModal && <FormModal />}
       <Head>
         <HeadTop>
           <HeadTopLeft>
@@ -184,7 +194,7 @@ const Root = () => {
               kind="default"
               paint="#AD1FEA"
               type="button"
-              onClick={() => {}}
+              onClick={handleShowModal}
             >
               Request Advertisement
             </Button>
