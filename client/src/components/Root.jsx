@@ -10,6 +10,7 @@ import FormModal from "./FormModal";
 
 const TableWrapper = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   height: 100%;
   width: 100%;
@@ -17,7 +18,6 @@ const TableWrapper = styled.div`
   align-items: center;
   background: #d6ebf2;
   backdrop-filter: blur(4px);
-  position: relative;
 `;
 
 const Head = styled.div`
@@ -109,6 +109,8 @@ const Footer = styled.div`
   width: 100%;
   height: 70px;
   background: #d6ebf2;
+  position: sticky;
+  bottom: 0;
 `;
 
 const Pagination = styled.div`
@@ -170,74 +172,86 @@ const Root = () => {
   };
 
   return (
-    <TableWrapper>
-      {showModal && <FormModal />}
-      <Head>
-        <HeadTop>
-          <HeadTopLeft>
-            <Search>
-              <img src={search} />
-              <SearchInput
-                placeholder="Search..."
-                value={value}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-              />
-            </Search>
-            <FilterBtn onClick={handleFilter}>
-              <img src={filter} />
-            </FilterBtn>
-          </HeadTopLeft>
-          <HeadTopRight>
-            <Button
-              className={classes.level_4}
-              kind="default"
-              paint="#AD1FEA"
-              type="button"
-              onClick={handleShowModal}
-            >
-              Request Advertisement
-            </Button>
-          </HeadTopRight>
-        </HeadTop>
-      </Head>
-      <Outlet />
-      <Footer>
-        <Pagination>
-          <Element>First</Element>
-          <Element>
-            <LeftArr>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                fill="currentColor"
+    <>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "fixed",
+          zIndex: 1,
+        }}
+      >
+        {showModal && <FormModal />}
+      </div>
+
+      <TableWrapper>
+        <Head>
+          <HeadTop>
+            <HeadTopLeft>
+              <Search>
+                <img src={search} />
+                <SearchInput
+                  placeholder="Search..."
+                  value={value}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyDown}
+                />
+              </Search>
+              <FilterBtn onClick={handleFilter}>
+                <img src={filter} />
+              </FilterBtn>
+            </HeadTopLeft>
+            <HeadTopRight>
+              <Button
+                className={classes.level_4}
+                kind="default"
+                paint="#AD1FEA"
+                type="button"
+                onClick={handleShowModal}
               >
-                <polygon points="12 17.414 3.293 8.707 4.707 7.293 12 14.586 19.293 7.293 20.707 8.707 12 17.414" />
-              </svg>
-            </LeftArr>
-          </Element>
-          <Element>Page 1 of 1000</Element>
-          <Element>
-            <RightArr>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                fill="currentColor"
-              >
-                <polygon points="12 17.414 3.293 8.707 4.707 7.293 12 14.586 19.293 7.293 20.707 8.707 12 17.414" />
-              </svg>
-            </RightArr>
-          </Element>
-          <Element>Last</Element>
-        </Pagination>
-      </Footer>
-    </TableWrapper>
+                Request Advertisement
+              </Button>
+            </HeadTopRight>
+          </HeadTop>
+        </Head>
+        <Outlet />
+        <Footer>
+          <Pagination>
+            <Element>First</Element>
+            <Element>
+              <LeftArr>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  fill="currentColor"
+                >
+                  <polygon points="12 17.414 3.293 8.707 4.707 7.293 12 14.586 19.293 7.293 20.707 8.707 12 17.414" />
+                </svg>
+              </LeftArr>
+            </Element>
+            <Element>Page 1 of 1000</Element>
+            <Element>
+              <RightArr>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  fill="currentColor"
+                >
+                  <polygon points="12 17.414 3.293 8.707 4.707 7.293 12 14.586 19.293 7.293 20.707 8.707 12 17.414" />
+                </svg>
+              </RightArr>
+            </Element>
+            <Element>Last</Element>
+          </Pagination>
+        </Footer>
+      </TableWrapper>
+    </>
   );
 };
 
