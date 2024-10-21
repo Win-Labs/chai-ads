@@ -20,21 +20,21 @@ import JSZip from "jszip";
 
 import React, { useEffect } from "react";
 
-const RunModal = ({ toggle, cluster }) => {
+const RunModal = ({ toggle, ad }) => {
   const zip = new JSZip();
 
   useEffect(() => {
-    zip.file("Config.toml", cluster.rollups[0].fileStrings.config);
-    zip.file("env.sh", cluster.rollups[0].fileStrings.env);
+    zip.file("Config.toml", ad.rollups[0].fileStrings.config);
+    zip.file("env.sh", ad.rollups[0].fileStrings.env);
     zip.file(
       "01_init_sequencer.sh",
-      cluster.rollups[0].fileStrings["01InitSequencer"]
+      ad.rollups[0].fileStrings["01InitSequencer"]
     );
     zip.file(
       "02_run_sequencer.sh",
-      cluster.rollups[0].fileStrings["02RunSequencer"]
+      ad.rollups[0].fileStrings["02RunSequencer"]
     );
-  }, [cluster]);
+  }, [ad]);
 
   const download = () => {
     // Generate the zip file

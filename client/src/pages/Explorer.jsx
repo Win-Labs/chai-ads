@@ -7,8 +7,8 @@ import { useGET } from "../hooks/useServer";
 import Modal from "../components/Modal";
 
 const Explorer = () => {
-  const [clusters, setClusters] = useState([]);
-  const [shouldGetClusters, setShouldGetClusters] = useState(false);
+  const [ads, setAds] = useState([]);
+  const [shouldGetAds, setShouldGetAds] = useState(false);
   const [all, setAll] = useState(false);
   const [encrypted, setEncrypted] = useState(false);
 
@@ -18,19 +18,19 @@ const Explorer = () => {
   };
 
   const {
-    isPending: isPendingClusters,
-    error: errorClusters,
-    data: dataClusters,
-    refetch: refetchClusters,
-    isFetching: isFetchingClusters,
-  } = useGET(["clusters"], "http://localhost:3333/api/v1/clusters", true, 3000);
+    isPending: isPendingAds,
+    error: errorAds,
+    data: dataAds,
+    refetch: refetchAds,
+    isFetching: isFetchingAds,
+  } = useGET(["ads"], "http://localhost:3333/api/v1/ads", false, 3000);
 
   useEffect(() => {
-    if (dataClusters) {
-      console.log("dataClusters: ", dataClusters);
-      setClusters(dataClusters);
+    if (dataAds) {
+      console.log("dataAds: ", dataAds);
+      setAds(dataAds);
     }
-  }, [dataClusters]);
+  }, [dataAds]);
 
   const toggleAll = () => {
     setAll((prevState) => !prevState);
@@ -40,7 +40,7 @@ const Explorer = () => {
   };
   return (
     <s.PageContainer>
-      <s.Title>All Clusters</s.Title>
+      <s.Title>All Ads</s.Title>
       <s.ActionsContainer>
         <s.SelectSearchWrapper>
           <s.TypeSelectBox>
@@ -60,7 +60,7 @@ const Explorer = () => {
         <s.Filter $active={encrypted} onClick={toggleEncrypted}>
           Encrypted Mempool
         </s.Filter>
-        <s.GenerateBtn onClick={toggleModal}>Generate Cluster</s.GenerateBtn>
+        <s.GenerateBtn onClick={toggleModal}>Generate Ad</s.GenerateBtn>
       </s.ActionsContainer>
       <s.Table>
         <s.Headers>
@@ -70,32 +70,28 @@ const Explorer = () => {
         </s.Headers>
 
         <s.Rows>
-          {isPendingClusters ? (
-            <Loader />
+          {isPendingAds ? (
+            // <Loader />
+            <></>
           ) : (
-            clusters.map((cluster) => (
-              <s.Row
-                to={`/${cluster.clusterId}/details`}
-                key={cluster.clusterId}
-              >
+            ads.map((ad) => (
+              <s.Row to={`/${ad.adId}/details`} key={ad.adId}>
                 <s.Cell>
-                  <s.CellTxt>
-                    {cluster.active ? "Active" : "Inactive"}
-                  </s.CellTxt>
+                  <s.CellTxt>{ad.active ? "Active" : "Inactive"}</s.CellTxt>
                 </s.Cell>
                 <s.Cell>
-                  <s.CellTxt>{cluster.clusterId}</s.CellTxt>
+                  <s.CellTxt>{ad.adId}</s.CellTxt>
                 </s.Cell>
                 <s.Cell>
                   <s.CellTxt>
                     {
-                      cluster.sequencers.filter(
+                      ad.sequencers.filter(
                         (sequencer) =>
                           sequencer !==
                           "0x0000000000000000000000000000000000000000"
                       ).length
                     }
-                    /{cluster.sequencers.length}
+                    /{ad.sequencers.length}
                   </s.CellTxt>
                 </s.Cell>
               </s.Row>

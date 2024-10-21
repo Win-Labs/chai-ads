@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
 import Explorer from "./pages/Explorer";
 import Dashboard from "./pages/Dashboard";
-import ClusterDetails from "./pages/ClusterDetails";
+import AdDetails from "./pages/AdDetails";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/:clusterId/details", // No index: true here
-        element: <ClusterDetails />,
+        path: "/:adId/details", // No index: true here
+        element: <AdDetails />,
         loader: () => {
           window.scrollTo(0, 0);
           return null;

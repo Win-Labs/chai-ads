@@ -23,7 +23,7 @@ const Modal = ({ toggle }) => {
   const { address } = useAccount();
 
   // Step 1
-  const [clusterId, setClusterId] = useState("cluster_id");
+  const [adId, setAdId] = useState("ad_id");
   const [maxSequencerNumber, setMaxSequencerNumber] = useState(30);
 
   // Step 2
@@ -50,7 +50,7 @@ const Modal = ({ toggle }) => {
     isLoading: isPatchLoading,
     isError: isPatchError,
     error: patchError,
-  } = usePATCH(`http://localhost:3333/api/v1/clusters/${clusterId}`, {
+  } = usePATCH(`http://localhost:3333/api/v1/ads/${adId}`, {
     onSuccess: (data) => {
       console.log("Resource updated successfully:", data);
     },
@@ -61,16 +61,16 @@ const Modal = ({ toggle }) => {
     },
   });
 
-  // Handle cluster initialization (Step 1)
-  const handleInitializeCluster = () => {
-    write("initializeCluster", [clusterId, maxSequencerNumber]);
+  // Handle ad initialization (Step 1)
+  const handleInitializeAd = () => {
+    write("initializeAd", [adId, maxSequencerNumber]);
     setTransactionCompleted(false); // Reset the flag when a new transaction begins
   };
 
   // Handle rollup addition (Step 2)
   const handleAddRollup = () => {
     write("addRollup", [
-      clusterId,
+      adId,
       {
         rollupId,
         rollupType,
@@ -123,7 +123,7 @@ const Modal = ({ toggle }) => {
         }}
       >
         <Title>
-          {(step === 1 && <span>Generate Cluster</span>) ||
+          {(step === 1 && <span>Generate Ad</span>) ||
             (step === 2 && <span>Add Rollup</span>) ||
             (step === 3 && <span>Add URLs</span>)}
         </Title>
@@ -138,12 +138,12 @@ const Modal = ({ toggle }) => {
           (step === 1 && (
             <>
               <InputContainer>
-                <Label>Cluster ID</Label>
+                <Label>Ad ID</Label>
                 <Input
-                  value={clusterId}
+                  value={adId}
                   type="text"
                   onChange={(e) => {
-                    setClusterId(e.target.value);
+                    setAdId(e.target.value);
                   }}
                 />
               </InputContainer>{" "}
@@ -261,8 +261,8 @@ const Modal = ({ toggle }) => {
         )}
         <Buttons>
           <SubmitBtnContainer>
-            <Button onClick={handleInitializeCluster} disabled={step !== 1}>
-              Initialize cluster
+            <Button onClick={handleInitializeAd} disabled={step !== 1}>
+              Initialize ad
             </Button>
           </SubmitBtnContainer>
           <SubmitBtnContainer>
