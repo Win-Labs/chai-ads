@@ -23,11 +23,13 @@ const Modal = ({ toggle }) => {
   const { address } = useAccount();
 
   // Step 1
-  const [adId, setAdId] = useState("ad_id");
-  const [maxSequencerNumber, setMaxSequencerNumber] = useState(30);
-
+  const [recipient, setRecipient] = useState("orkhan_influenza");
+  const [duration, setDuration] = useState(30);
+  const [currency, setCurrency] = useState("usdt");
+  const [network, setNetwork] = useState("ethereum");
   // Step 2
-  const [rollupId, setRollupId] = useState("rollup_id");
+  const [text, setText] = useState("rollup_id");
+  const [amount, setAmount] = useState(1000);
   const [rollupType, setRollupType] = useState("polygon_cdk");
   const [orderCommitmentType, setOrderCommitmentType] = useState("sign");
   const [encryptedTransactionType, setEncryptedTransactionType] =
@@ -50,7 +52,7 @@ const Modal = ({ toggle }) => {
     isLoading: isPatchLoading,
     isError: isPatchError,
     error: patchError,
-  } = usePATCH(`http://localhost:3333/api/v1/ads/${adId}`, {
+  } = usePATCH(`http://localhost:3333/api/v1/ads/${recipient}`, {
     onSuccess: (data) => {
       console.log("Resource updated successfully:", data);
     },
@@ -63,16 +65,16 @@ const Modal = ({ toggle }) => {
 
   // Handle ad initialization (Step 1)
   const handleInitializeAd = () => {
-    write("initializeAd", [adId, maxSequencerNumber]);
+    write("initializeAd", [recipient, duration]);
     setTransactionCompleted(false); // Reset the flag when a new transaction begins
   };
 
   // Handle rollup addition (Step 2)
   const handleAddRollup = () => {
     write("addRollup", [
-      adId,
+      recipient,
       {
-        rollupId,
+        text,
         rollupType,
         encryptedTransactionType,
         owner: address,
@@ -85,7 +87,7 @@ const Modal = ({ toggle }) => {
 
   const handleAddServerData = () => {
     const data = {
-      rollupId,
+      text,
       executorAddress: address,
       rpcUrl,
       blockExplorerUrl,
@@ -123,156 +125,73 @@ const Modal = ({ toggle }) => {
         }}
       >
         <Title>
-          {(step === 1 && <span>Generate Ad</span>) ||
-            (step === 2 && <span>Add Rollup</span>) ||
-            (step === 3 && <span>Add URLs</span>)}
+          <span>Request Ad</span>
         </Title>
-        <StepsContainer>
-          <Step $active={step === 1}></Step>
-          <Step $active={step === 2}></Step>
-          <Step $active={step === 3}></Step>
-        </StepsContainer>
         {isHashPending ? (
           <Loader />
         ) : (
-          (step === 1 && (
+          step === 1 && (
             <>
               <InputContainer>
-                <Label>Ad ID</Label>
+                <Label>Recipient</Label>
                 <Input
-                  value={adId}
+                  value={recipient}
                   type="text"
                   onChange={(e) => {
-                    setAdId(e.target.value);
+                    setRecipient(e.target.value);
                   }}
                 />
               </InputContainer>{" "}
               <InputContainer>
-                <Label>Max # of sequencers</Label>
+                <Label>Duration</Label>
                 <Input
-                  value={maxSequencerNumber}
+                  value={duration}
                   type="text"
                   onChange={(e) => {
-                    setMaxSequencerNumber(e.target.value);
+                    setDuration(e.target.value);
                   }}
                 />
               </InputContainer>{" "}
-            </>
-          )) ||
-          (step === 2 && (
-            <>
               <InputContainer>
-                <Label>Rollup Id</Label>
+                <Label>Text</Label>
                 <Input
-                  value={rollupId}
+                  value={text}
                   type="text"
                   onChange={(e) => {
-                    setRollupId(e.target.value);
+                    setText(e.target.value);
                   }}
                 />
               </InputContainer>
               <InputContainer>
-                <Label>Rollup Type</Label>
-                <SelectBox onChange={(e) => setRollupType(e.target.value)}>
-                  <option defaultValue="polygon_cdk">Polygon CDK</option>
+                <Label>Currency</Label>
+                <SelectBox onChange={(e) => setCurrency(e.target.value)}>
+                  <option defaultValue="usdt">USDT</option>
+                  <option value="eth">ETH</option>
+                </SelectBox>
+              </InputContainer>
+              <InputContainer>
+                <Label>Offer</Label>
+                <Input
+                  value={amount}
+                  type="text"
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                  }}
+                />
+              </InputContainer>
+              <InputContainer>
+                <Label>Network</Label>
+                <SelectBox onChange={(e) => setNetwork(e.target.value)}>
+                  <option defaultValue="ethereum">Ethereum Mainnet</option>
                 </SelectBox>
               </InputContainer>{" "}
-              <InputContainer>
-                <Label>Encrypted Transaction Type</Label>
-                <SelectBox
-                  onChange={(e) => setEncryptedTransactionType(e.target.value)}
-                >
-                  <option defaultValue="skde">Skde</option>
-                  <option value="pvde">Pvde</option>
-                </SelectBox>
-              </InputContainer>{" "}
-              <InputContainer>
-                <Label>Order Commitment Type</Label>
-                <SelectBox
-                  onChange={(e) => setOrderCommitmentType(e.target.value)}
-                >
-                  <option defaultValue="sign">Sign</option>
-                  <option value="transaction_hash">Transaction Hash</option>
-                </SelectBox>
-              </InputContainer>{" "}
-              <InputContainer>
-                <Label>Validation Info</Label>
-              </InputContainer>{" "}
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  flexDirection: "column",
-                  paddingLeft: "15px",
-                }}
-              >
-                <InputContainer>
-                  <SubLabel>Platform</SubLabel>
-                  <SelectBox onChange={(e) => setPlatform(e.target.value)}>
-                    <option defaultValue="ethereum">Ethereum</option>
-                  </SelectBox>
-                </InputContainer>{" "}
-                <InputContainer>
-                  <SubLabel>Service provider</SubLabel>
-                  <SelectBox
-                    onChange={(e) => setServiceProvider(e.target.value)}
-                  >
-                    <option defaultValue="eigen_layer">Eigenlayer</option>
-                    <option value="symbiotic">Symbiotic</option>
-                  </SelectBox>
-                </InputContainer>
-              </div>
             </>
-          )) ||
-          (step === 3 && (
-            <>
-              <InputContainer>
-                <Label>RPC URL</Label>
-                <Input
-                  value={rpcUrl}
-                  type="text"
-                  onChange={(e) => {
-                    setRpcUrl(e.target.value);
-                  }}
-                />
-              </InputContainer>
-              <InputContainer>
-                <Label>Web-Socket URL</Label>
-                <Input
-                  type="text"
-                  value={webSocketUrl}
-                  onChange={(e) => {
-                    setWebSocketUrl(e.target.value);
-                  }}
-                />
-              </InputContainer>
-              <InputContainer>
-                <Label>Block Explorer URL</Label>
-                <Input
-                  value={blockExplorerUrl}
-                  type="text"
-                  onChange={(e) => {
-                    setBlockExplorerUrl(e.target.value);
-                  }}
-                />
-              </InputContainer>
-            </>
-          ))
+          )
         )}
         <Buttons>
           <SubmitBtnContainer>
-            <Button onClick={handleInitializeAd} disabled={step !== 1}>
-              Initialize ad
-            </Button>
-          </SubmitBtnContainer>
-          <SubmitBtnContainer>
             <Button onClick={handleAddRollup} disabled={step !== 2}>
-              Add Rollup
-            </Button>
-          </SubmitBtnContainer>
-          <SubmitBtnContainer>
-            <Button onClick={handleAddServerData} disabled={step !== 3}>
-              Store Server Data
+              Request add{" "}
             </Button>
           </SubmitBtnContainer>
         </Buttons>
