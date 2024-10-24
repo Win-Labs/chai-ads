@@ -8,27 +8,31 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow: auto;
+  position: relative;
 `;
 
 // Use $gap to avoid conflict with DOM attributes
 const NodeChildren = styled.div<{ $gap: number }>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 80px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: ${({ $gap }) => `${$gap}px`}; // Ensure gap is correctly typed and used
-  transform: rotate(-90deg);
+  gap: 20px;
+  transform: rotate(90deg);
 `;
 
 const Node = styled.div`
-  padding: 10px;
+  padding: 3px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  min-width: 50px;
+  border-radius: 50%;
+  margin: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  background-color: #f7f7f7;
 `;
 
 // Function to calculate the total number of nodes
@@ -41,8 +45,7 @@ const computeTotalNodes = (lastLevelNodes: number): number => {
 // Function to construct the Merkle tree recursively with node names
 const buildTree = (
   nodeCount: number,
-  currentNode: number,
-  initialGap: number
+  currentNode: number
 ): JSX.Element | null => {
   if (currentNode === 0) return null;
 
@@ -51,11 +54,11 @@ const buildTree = (
   }
 
   return (
-    <NodeChildren $gap={initialGap - 10} key={currentNode}>
-      {buildTree(nodeCount, currentNode - 2, initialGap - 10)}
+    <NodeChildren key={currentNode}>
+      {buildTree(nodeCount, currentNode - 2)}
       {/* Left child */}
       <Node>{`N${currentNode}`}</Node>
-      {buildTree(nodeCount, currentNode - 1, initialGap - 10)}
+      {buildTree(nodeCount, currentNode - 1)}
       {/* Right child */}
     </NodeChildren>
   );
@@ -63,16 +66,12 @@ const buildTree = (
 
 // Parent component to render the tree
 const MerkleTree = (): JSX.Element => {
-  const lastLevelNodes = 8;
-  const initialGap = 50;
+  const lastLevelNodes = 4;
+  const xPercent = 50;
+  const yPercent = 50;
   const totalNodes = computeTotalNodes(lastLevelNodes);
-
-  return (
-    <div>
-      <h2>Merkle Tree</h2>
-      <Container>{buildTree(totalNodes, totalNodes, initialGap)}</Container>
-    </div>
-  );
+  console.log(totalNodes);
+  return <Container>{buildTree(totalNodes, totalNodes)}</Container>;
 };
 
 export default MerkleTree;
